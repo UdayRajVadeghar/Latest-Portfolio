@@ -23,7 +23,7 @@ export default function Hero() {
             </p>
           </div>
           <div className="max-w-[700px] text-muted-foreground">
-            <p className="text-lg">Building scalable, secure, and efficient Softwares</p>
+            <p className="text-lg">Building scalable, secure, and efficient AI Solutions and Softwares</p>
           </div>
           <div className="flex flex-col sm:flex-row gap-4 mt-6">
             <Button asChild size="lg" className="rounded-full">

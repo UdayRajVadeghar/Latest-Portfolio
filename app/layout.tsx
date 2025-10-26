@@ -21,8 +21,8 @@ export const metadata: Metadata = {
   creator: "Uday Raj Vadeghar",
   icons: {
     icon: [
+      { url: "/next.svg", type: "image/svg+xml" },
       { url: "/favicon.ico", sizes: "any" },
-      { url: "/icon.png", type: "image/svg+xml" },
     ],
     apple: [{ url: "/apple-touch-icon.png" }],
   },
@@ -36,10 +36,10 @@ export const metadata: Metadata = {
     siteName: "Uday Raj Vadeghar Portfolio",
     images: [
       {
-        url: "/favicon.png",
+        url: "/next.svg",
         width: 512,
         height: 512,
-        alt: "Uday Raj Vadeghar Logo",
+        alt: "Next.js Logo",
       },
     ],
   },
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     description:
       "Portfolio of Uday Raj Vadeghar — Software Engineer. ",
     creator: "@udayraj",
-    images: ["/favicon.png"],
+    images: ["/next.svg"],
   },
   robots: {
     index: true,
