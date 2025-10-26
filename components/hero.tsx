@@ -30,7 +30,12 @@ export default function Hero() {
               <Link href="#contact">Get In Touch</Link>
             </Button>
             <Button asChild variant="outline" size="lg" className="rounded-full">
-              <a href="#" target="_blank" rel="noopener noreferrer">
+              {/*
+                Place `resumeudayrajvadeghar.pdf` inside the project's `public/` folder.
+                The file will then be available at `/resumeudayrajvadeghar.pdf`.
+                The `download` attribute forces the browser to download the file.
+              */}
+              <a href="/resumeudayrajvadeghar.pdf" download target="_blank" rel="noopener noreferrer">
                 <Download className="mr-2 h-4 w-4" /> Download Resume
               </a>
             </Button>
