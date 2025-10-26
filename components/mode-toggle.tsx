@@ -1,14 +1,13 @@
 "use client"
 
-import { Moon, Sun } from "lucide-react"
+import { Check, Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
 
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
+  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
@@ -25,14 +24,27 @@ export function ModeToggle() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuRadioGroup
-          value={(theme as string) ?? "system"}
-          onValueChange={(value) => setTheme(value)}
+        <DropdownMenuItem
+          onClick={() => setTheme("light")}
+          className="flex items-center justify-between"
         >
-          <DropdownMenuRadioItem value="light">Light</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="dark">Dark</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="system">System</DropdownMenuRadioItem>
-        </DropdownMenuRadioGroup>
+          <span>Light</span>
+          {theme === "light" && <Check className="h-4 w-4 text-primary" />}
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => setTheme("dark")}
+          className="flex items-center justify-between"
+        >
+          <span>Dark</span>
+          {theme === "dark" && <Check className="h-4 w-4 text-primary" />}
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => setTheme("system")}
+          className="flex items-center justify-between"
+        >
+          <span>System</span>
+          {theme === "system" && <Check className="h-4 w-4 text-primary" />}
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )
