@@ -2,14 +2,14 @@
 
 import type React from "react"
 
-import { useState, useEffect, useCallback } from "react"
-import { ModeToggle } from "./mode-toggle"
 import { Button } from "@/components/ui/button"
-import { Menu, X } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { usePathname } from "next/navigation"
 import { motion } from "framer-motion"
+import { Menu, X } from "lucide-react"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { useCallback, useEffect, useState } from "react"
+import { ModeToggle } from "./mode-toggle"
 
 // Updated nav items - removed Skills as it's now part of Experience
 const navItems = [
@@ -100,7 +100,7 @@ export default function Header() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <span className="text-2xl font-bold gradient-text">NM</span>
+            <span className="text-2xl font-bold gradient-text">UR</span>
           </motion.div>
         </Link>
 
