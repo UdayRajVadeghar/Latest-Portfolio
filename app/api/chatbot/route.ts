@@ -1,6 +1,9 @@
 import { ratelimit } from "@/lib/ratelimit";
 import { NextRequest, NextResponse } from "next/server";
 
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
 const AGENT_API_ENDPOINT = process.env.AGENT_API_ENDPOINT || "";
 const AGENT_API_ENDPOINT_INTERACTION =
   process.env.AGENT_API_ENDPOINT_INTERACTION || "";
