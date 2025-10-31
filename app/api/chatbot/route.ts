@@ -58,10 +58,10 @@ export async function POST(req: NextRequest) {
     }
 
     let sessionId = session_id;
-    console.log(
-      "Received session_id:",
-      sessionId || "(empty - will create new)"
-    );
+    // console.log(
+    //   "Received session_id:",
+    //   sessionId || "(empty - will create new)"
+    // );
 
     if (!sessionId) {
       console.log("Creating new session...");
@@ -130,7 +130,7 @@ export async function POST(req: NextRequest) {
       },
     };
 
-    console.log("Sending message with sessionId:", sessionId);
+    // console.log("Sending message with sessionId:", sessionId);
 
     const response = await fetch(AGENT_API_ENDPOINT_INTERACTION, {
       method: "POST",

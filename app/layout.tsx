@@ -2,6 +2,7 @@ import { Analytics } from "@/components/analytics";
 import type { Metadata } from "next";
 import type React from "react";
 import ClientLayout from "./client";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Uday Raj Vadeghar | Software Engineer",
@@ -46,8 +47,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Uday Raj Vadeghar | Software Engineer",
-    description:
-      "Portfolio of Uday Raj Vadeghar — Software Engineer. ",
+    description: "Portfolio of Uday Raj Vadeghar — Software Engineer. ",
     creator: "@udayraj",
     images: ["/next.svg"],
   },
