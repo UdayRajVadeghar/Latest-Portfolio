@@ -42,8 +42,8 @@ export default function ClientLayout({
       >
         <ThemeProvider
           attribute="class"
-          defaultTheme="light"
-          enableSystem={false}
+          defaultTheme="dark"
+          enableSystem={true}
           disableTransitionOnChange
         >
           <div className="relative flex min-h-screen flex-col overflow-hidden">
