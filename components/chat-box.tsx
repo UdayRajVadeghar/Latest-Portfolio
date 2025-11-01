@@ -311,7 +311,7 @@ export default function ChatBox() {
                 inputValue.length > MAX_MESSAGE_LENGTH
                   ? "text-destructive font-medium"
                   : inputValue.length > MAX_MESSAGE_LENGTH * 0.9
-                  ? "text-orange-500"
+                  ? "text-[#D97757] font-medium"
                   : "text-muted-foreground"
               }`}
             >
