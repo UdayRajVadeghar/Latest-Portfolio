@@ -119,7 +119,7 @@ export default function ChatBox() {
 
         <div
           ref={messagesContainerRef}
-          className="p-6 space-y-5 bg-muted/20 min-h-[450px] max-h-[550px] overflow-y-auto scroll-smooth"
+          className="p-6 space-y-5 bg-muted/20 h-[480px] overflow-y-auto scroll-smooth"
           id="chat-messages"
         >
           {messages.length === 0 ? (
