@@ -29,10 +29,8 @@ export const metadata: Metadata = {
   creator: "Uday Raj Vadeghar",
   icons: {
     icon: [
-      { url: "/next.svg", type: "image/svg+xml" },
-      { url: "/favicon.ico", sizes: "any" },
+      { url: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💼</text></svg>", type: "image/svg+xml" },
     ],
-    apple: [{ url: "/apple-touch-icon.png" }],
   },
   openGraph: {
     type: "website",
