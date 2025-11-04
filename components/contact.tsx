@@ -1,10 +1,53 @@
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Mail, MapPin, Phone } from "lucide-react"
+"use client";
+
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import emailjs from "@emailjs/browser";
+import {
+  AlertCircle,
+  CheckCircle,
+  Loader2,
+  Mail,
+  MapPin,
+  Phone,
+} from "lucide-react";
+import { FormEvent, useEffect, useRef, useState } from "react";
+
+const EMAILJS_CONFIG = {
+  serviceId: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID?.trim(),
+  templateId: "template_3ganjjc",
+  publicKey: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY?.trim(),
+} as const;
+
+const isEmailJsConfigured = Boolean(
+  EMAILJS_CONFIG.serviceId &&
+    EMAILJS_CONFIG.templateId &&
+    EMAILJS_CONFIG.publicKey
+);
 
 export default function Contact() {
+  const formRef = useRef<HTMLFormElement>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{
+    type: "success" | "error" | null;
+    message: string;
+  }>({ type: null, message: "" });
+
+  useEffect(() => {
+    const publicKey = EMAILJS_CONFIG.publicKey;
+
+    if (!publicKey) {
+      console.warn(
+        "EmailJS public key is not configured. Contact form submissions will fail until NEXT_PUBLIC_EMAILJS_PUBLIC_KEY is set."
+      );
+      return;
+    }
+
+    emailjs.init({ publicKey });
+  }, []);
+
   const contactInfo = [
     {
       icon: <Mail className="h-6 w-6 text-primary" />,
@@ -24,7 +67,70 @@ export default function Contact() {
       value: "Available on request",
       link: null,
     },
-  ]
+  ];
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!formRef.current) return;
+
+    if (!isEmailJsConfigured) {
+      console.error(
+        "EmailJS environment variables are missing. Ensure NEXT_PUBLIC_EMAILJS_SERVICE_ID, NEXT_PUBLIC_EMAILJS_TEMPLATE_ID, and NEXT_PUBLIC_EMAILJS_PUBLIC_KEY are set."
+      );
+      setSubmitStatus({
+        type: "error",
+        message:
+          "Contact form is temporarily unavailable. Please email me directly while I fix the configuration.",
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitStatus({ type: null, message: "" });
+
+    try {
+      const formData = new FormData(formRef.current);
+      const name = formData.get("from_name") as string;
+      const email = formData.get("from_email") as string;
+      const subject = formData.get("subject") as string;
+      const originalMessage = formData.get("message") as string;
+
+      const formattedMessage = `Name: ${name}\nEmail: ${email}\nSubject: ${subject}\n\nMessage:\n${originalMessage}`;
+
+      const result = await emailjs.send(
+        EMAILJS_CONFIG.serviceId!,
+        EMAILJS_CONFIG.templateId!,
+        {
+          from_name: name,
+          from_email: email,
+          subject: subject,
+          message: formattedMessage,
+        },
+        {
+          publicKey: EMAILJS_CONFIG.publicKey!,
+        }
+      );
+
+      if (result.text === "OK") {
+        setSubmitStatus({
+          type: "success",
+          message:
+            "Thank you! Your message has been sent successfully. I'll get back to you soon.",
+        });
+        formRef.current.reset();
+      }
+    } catch (error) {
+      console.error("EmailJS error:", error);
+      setSubmitStatus({
+        type: "error",
+        message:
+          "Oops! Something went wrong. Please try again or email me directly.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="w-full bg-muted/30">
@@ -32,39 +138,102 @@ export default function Contact() {
         <div className="container px-4 md:px-6 mx-auto">
           <div className="space-y-12">
             <div className="space-y-4 text-center">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Get In Touch</h2>
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+                Get In Touch
+              </h2>
               <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Have a project in mind or want to discuss opportunities? I'd love to hear from you!
+                Have a project in mind or want to discuss opportunities? I'd
+                love to hear from you!
               </p>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-12">
               <div className="lg:col-span-2">
                 <Card>
-                  <CardContent className="p-6">
-                    <form action="https://formspree.io/f/xldoowkb" method="POST" className="space-y-6">
+                  <CardContent className="p-4 sm:p-6">
+                    <form
+                      ref={formRef}
+                      onSubmit={handleSubmit}
+                      className="space-y-6"
+                    >
+                      {submitStatus.type && (
+                        <div
+                          className={`p-3 sm:p-4 rounded-lg border flex items-start gap-3 ${
+                            submitStatus.type === "success"
+                              ? "bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800"
+                              : "bg-red-50 dark:bg-red-950/20 border-red-200 dark:border-red-800"
+                          }`}
+                        >
+                          {submitStatus.type === "success" ? (
+                            <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400 shrink-0 mt-0.5" />
+                          ) : (
+                            <AlertCircle className="h-5 w-5 text-red-600 dark:text-red-400 shrink-0 mt-0.5" />
+                          )}
+                          <p
+                            className={`text-sm ${
+                              submitStatus.type === "success"
+                                ? "text-green-800 dark:text-green-200"
+                                : "text-red-800 dark:text-red-200"
+                            }`}
+                          >
+                            {submitStatus.message}
+                          </p>
+                        </div>
+                      )}
+
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="space-y-2">
-                          <label htmlFor="name" className="text-sm font-medium">
+                          <label
+                            htmlFor="from_name"
+                            className="text-sm font-medium"
+                          >
                             Name
                           </label>
-                          <Input id="name" name="name" placeholder="Your name" required />
+                          <Input
+                            id="from_name"
+                            name="from_name"
+                            placeholder="Your name"
+                            required
+                            disabled={isSubmitting}
+                          />
                         </div>
                         <div className="space-y-2">
-                          <label htmlFor="email" className="text-sm font-medium">
+                          <label
+                            htmlFor="from_email"
+                            className="text-sm font-medium"
+                          >
                             Email
                           </label>
-                          <Input id="email" name="email" type="email" placeholder="Your email" required />
+                          <Input
+                            id="from_email"
+                            name="from_email"
+                            type="email"
+                            placeholder="Your email"
+                            required
+                            disabled={isSubmitting}
+                          />
                         </div>
                       </div>
                       <div className="space-y-2">
-                        <label htmlFor="subject" className="text-sm font-medium">
+                        <label
+                          htmlFor="subject"
+                          className="text-sm font-medium"
+                        >
                           Subject
                         </label>
-                        <Input id="subject" name="subject" placeholder="Subject of your message" required />
+                        <Input
+                          id="subject"
+                          name="subject"
+                          placeholder="Subject of your message"
+                          required
+                          disabled={isSubmitting}
+                        />
                       </div>
                       <div className="space-y-2">
-                        <label htmlFor="message" className="text-sm font-medium">
+                        <label
+                          htmlFor="message"
+                          className="text-sm font-medium"
+                        >
                           Message
                         </label>
                         <Textarea
@@ -73,16 +242,26 @@ export default function Contact() {
                           placeholder="Your message"
                           className="min-h-[150px]"
                           required
+                          disabled={isSubmitting}
                         />
                       </div>
-                      <Button type="submit" className="w-full">
-                        Send Message
+                      <Button
+                        type="submit"
+                        className="w-full"
+                        disabled={isSubmitting}
+                      >
+                        {isSubmitting ? (
+                          <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            <span className="hidden sm:inline">
+                              Sending Message...
+                            </span>
+                            <span className="sm:hidden">Sending...</span>
+                          </>
+                        ) : (
+                          "Send Message"
+                        )}
                       </Button>
-                      <noscript>
-                        <p className="text-sm text-center text-muted-foreground mt-2">
-                          Please enable JavaScript to use the form, or email me directly.
-                        </p>
-                      </noscript>
                     </form>
                   </CardContent>
                 </Card>
@@ -92,15 +271,23 @@ export default function Contact() {
                 {contactInfo.map((info, index) => (
                   <Card key={index} className="overflow-hidden">
                     <CardContent className="p-6 flex items-start gap-4">
-                      <div className="bg-primary/10 p-3 rounded-full mt-1">{info.icon}</div>
+                      <div className="bg-primary/10 p-3 rounded-full mt-1">
+                        {info.icon}
+                      </div>
                       <div>
                         <h3 className="font-medium">{info.title}</h3>
                         {info.link ? (
                           <a
                             href={info.link}
                             className="text-muted-foreground hover:text-primary transition-colors"
-                            target={info.title === "Location" ? "_blank" : undefined}
-                            rel={info.title === "Location" ? "noopener noreferrer" : undefined}
+                            target={
+                              info.title === "Location" ? "_blank" : undefined
+                            }
+                            rel={
+                              info.title === "Location"
+                                ? "noopener noreferrer"
+                                : undefined
+                            }
                           >
                             {info.value}
                           </a>
@@ -115,10 +302,16 @@ export default function Contact() {
                 <Card>
                   <CardContent className="p-6">
                     <h3 className="font-medium mb-2">Connect with me</h3>
-                    <p className="text-sm text-muted-foreground mb-4">Find me on these platforms</p>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      Find me on these platforms
+                    </p>
                     <div className="flex gap-4">
                       <Button variant="outline" size="icon" asChild>
-                        <a href="https://github.com/udayrajvadeghar" target="_blank" rel="noopener noreferrer">
+                        <a
+                          href="https://github.com/udayrajvadeghar"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="24"
@@ -138,7 +331,11 @@ export default function Contact() {
                         </a>
                       </Button>
                       <Button variant="outline" size="icon" asChild>
-                        <a href="https://www.linkedin.com/in/uday-raj-vadeghar/" target="_blank" rel="noopener noreferrer">
+                        <a
+                          href="https://www.linkedin.com/in/uday-raj-vadeghar/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="24"
@@ -172,7 +369,13 @@ export default function Contact() {
                             strokeLinejoin="round"
                             className="h-5 w-5"
                           >
-                            <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                            <rect
+                              width="20"
+                              height="16"
+                              x="2"
+                              y="4"
+                              rx="2"
+                            ></rect>
                             <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
                           </svg>
                           <span className="sr-only">Email</span>
@@ -187,5 +390,5 @@ export default function Contact() {
         </div>
       </section>
     </div>
-  )
+  );
 }

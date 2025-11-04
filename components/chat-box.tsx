@@ -97,21 +97,23 @@ export default function ChatBox() {
   return (
     <div className="w-full">
       <Card className="border-2 shadow-2xl">
-        <div className="bg-primary text-primary-foreground p-4 rounded-t-lg">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-primary-foreground/20 rounded-full">
-              <Bot className="h-5 w-5" />
+        <div className="bg-primary text-primary-foreground p-3 sm:p-4 rounded-t-lg">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="p-1.5 sm:p-2 bg-primary-foreground/20 rounded-full">
+              <Bot className="h-4 w-4 sm:h-5 sm:w-5" />
             </div>
-            <div className="flex-1">
-              <h3 className="font-semibold">Chat with Uday's AI</h3>
-              <p className="text-xs opacity-90">
+            <div className="flex-1 min-w-0">
+              <h3 className="font-semibold text-sm sm:text-base">
+                Chat with Uday's AI
+              </h3>
+              <p className="text-xs opacity-90 truncate">
                 Ask me anything about my experience
               </p>
             </div>
             {isStreaming && (
-              <div className="flex items-center gap-2 text-xs">
-                <Loader2 className="h-4 w-4 animate-spin" />
-                <span>Typing...</span>
+              <div className="flex items-center gap-1.5 sm:gap-2 text-xs shrink-0">
+                <Loader2 className="h-3 w-3 sm:h-4 sm:w-4 animate-spin" />
+                <span className="hidden sm:inline">Typing...</span>
               </div>
             )}
           </div>
@@ -119,7 +121,7 @@ export default function ChatBox() {
 
         <div
           ref={messagesContainerRef}
-          className="p-6 space-y-5 bg-muted/20 h-[480px] overflow-y-auto scroll-smooth"
+          className="p-3 sm:p-6 space-y-5 bg-muted/20 h-[480px] overflow-y-auto scroll-smooth"
           id="chat-messages"
         >
           {messages.length === 0 ? (
@@ -141,7 +143,7 @@ export default function ChatBox() {
                   <p className="text-xs text-muted-foreground font-medium">
                     Try asking:
                   </p>
-                  <div className="flex flex-wrap gap-2 justify-center">
+                  <div className="flex flex-wrap gap-2 justify-center px-2">
                     {[
                       "Tell me about your experience",
                       "What technologies do you use?",
@@ -153,7 +155,7 @@ export default function ChatBox() {
                           setInputValue(suggestion);
                           inputRef.current?.focus();
                         }}
-                        className="px-3 py-1.5 text-xs bg-secondary hover:bg-secondary/80 rounded-full transition-colors"
+                        className="px-2.5 sm:px-3 py-1.5 text-[10px] sm:text-xs bg-secondary hover:bg-secondary/80 rounded-full transition-colors"
                       >
                         {suggestion}
                       </button>
@@ -172,40 +174,40 @@ export default function ChatBox() {
                   } animate-in fade-in slide-in-from-bottom-2 duration-300`}
                 >
                   <div
-                    className={`flex gap-2 max-w-[85%] ${
+                    className={`flex gap-1.5 sm:gap-2 max-w-[90%] sm:max-w-[85%] ${
                       message.sender === "user"
                         ? "flex-row-reverse"
                         : "flex-row"
                     }`}
                   >
                     <div
-                      className={`flex-shrink-0 h-8 w-8 rounded-full flex items-center justify-center ${
+                      className={`flex-shrink-0 h-7 w-7 sm:h-8 sm:w-8 rounded-full flex items-center justify-center ${
                         message.sender === "user"
                           ? "bg-primary text-primary-foreground"
                           : "bg-secondary text-secondary-foreground"
                       }`}
                     >
                       {message.sender === "user" ? (
-                        <User className="h-4 w-4" />
+                        <User className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                       ) : (
-                        <Bot className="h-4 w-4" />
+                        <Bot className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                       )}
                     </div>
 
                     <div className="flex flex-col gap-1">
                       <div
-                        className={`rounded-2xl px-4 py-2.5 ${
+                        className={`rounded-2xl px-3 sm:px-4 py-2 sm:py-2.5 ${
                           message.sender === "user"
                             ? "bg-primary text-primary-foreground rounded-tr-sm"
                             : "bg-secondary text-secondary-foreground rounded-tl-sm"
                         }`}
                       >
-                        <p className="text-sm leading-relaxed whitespace-pre-wrap">
+                        <p className="text-xs sm:text-sm leading-relaxed whitespace-pre-wrap break-words">
                           {message.text}
                         </p>
                       </div>
                       <span
-                        className={`text-xs text-muted-foreground px-2 ${
+                        className={`text-[10px] sm:text-xs text-muted-foreground px-1 sm:px-2 ${
                           message.sender === "user" ? "text-right" : "text-left"
                         }`}
                       >
@@ -218,15 +220,15 @@ export default function ChatBox() {
 
               {isLoading && !isStreaming && messages.length > 0 && (
                 <div className="flex justify-start animate-in fade-in">
-                  <div className="flex gap-2 max-w-[85%]">
-                    <div className="flex-shrink-0 h-8 w-8 rounded-full flex items-center justify-center bg-secondary text-secondary-foreground">
-                      <Bot className="h-4 w-4" />
+                  <div className="flex gap-1.5 sm:gap-2 max-w-[90%] sm:max-w-[85%]">
+                    <div className="flex-shrink-0 h-7 w-7 sm:h-8 sm:w-8 rounded-full flex items-center justify-center bg-secondary text-secondary-foreground">
+                      <Bot className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                     </div>
-                    <div className="rounded-2xl px-4 py-2.5 bg-secondary text-secondary-foreground rounded-tl-sm">
+                    <div className="rounded-2xl px-3 sm:px-4 py-2 sm:py-2.5 bg-secondary text-secondary-foreground rounded-tl-sm">
                       <div className="flex gap-1">
-                        <div className="w-2 h-2 bg-current rounded-full animate-bounce [animation-delay:-0.3s]"></div>
-                        <div className="w-2 h-2 bg-current rounded-full animate-bounce [animation-delay:-0.15s]"></div>
-                        <div className="w-2 h-2 bg-current rounded-full animate-bounce"></div>
+                        <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-current rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+                        <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-current rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+                        <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-current rounded-full animate-bounce"></div>
                       </div>
                     </div>
                   </div>
@@ -259,10 +261,12 @@ export default function ChatBox() {
           </div>
         )}
 
-        <div className="p-4 border-t bg-background rounded-b-lg">
+        <div className="p-3 sm:p-4 border-t bg-background rounded-b-lg">
           {validationError && (
-            <div className="mb-3 px-4 py-2 bg-destructive/10 border border-destructive/20 rounded-lg">
-              <p className="text-sm text-destructive">{validationError}</p>
+            <div className="mb-3 px-3 sm:px-4 py-2 bg-destructive/10 border border-destructive/20 rounded-lg">
+              <p className="text-xs sm:text-sm text-destructive">
+                {validationError}
+              </p>
             </div>
           )}
           <form onSubmit={handleSubmit} className="flex gap-2">
@@ -277,7 +281,7 @@ export default function ChatBox() {
               placeholder={
                 isLoading ? "Waiting for response..." : "Type your message..."
               }
-              className={`flex-1 px-4 py-2.5 rounded-full border bg-muted/50 focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm ${
+              className={`flex-1 px-3 sm:px-4 py-2.5 rounded-full border bg-muted/50 focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm ${
                 validationError ? "border-destructive" : ""
               }`}
               autoComplete="off"
@@ -285,28 +289,29 @@ export default function ChatBox() {
             />
             <button
               type="submit"
-              className="px-6 py-2.5 bg-primary text-primary-foreground rounded-full font-medium text-sm hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+              className="px-3 sm:px-6 py-2.5 bg-primary text-primary-foreground rounded-full font-medium text-sm hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 shrink-0"
               disabled={isLoading || !inputValue.trim() || !!validationError}
+              aria-label={isLoading ? "Sending message" : "Send message"}
             >
               {isLoading ? (
                 <>
                   <Loader2 className="h-4 w-4 animate-spin" />
-                  <span>Sending...</span>
+                  <span className="hidden sm:inline">Sending...</span>
                 </>
               ) : (
                 <>
                   <Send className="h-4 w-4" />
-                  <span>Send</span>
+                  <span className="hidden sm:inline">Send</span>
                 </>
               )}
             </button>
           </form>
-          <div className="flex justify-between items-center mt-2">
-            <p className="text-xs text-muted-foreground">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-2 mt-2">
+            <p className="text-xs text-muted-foreground order-2 sm:order-1">
               Session expires after 5 minutes of inactivity
             </p>
             <p
-              className={`text-xs ${
+              className={`text-xs order-1 sm:order-2 text-right sm:text-left ${
                 inputValue.length > MAX_MESSAGE_LENGTH
                   ? "text-destructive font-medium"
                   : inputValue.length > MAX_MESSAGE_LENGTH * 0.9
