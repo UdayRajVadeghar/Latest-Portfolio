@@ -1,47 +1,48 @@
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent } from "@/components/ui/card"
-import { Award } from "lucide-react"
+import { Card, CardContent } from "@/components/ui/card";
+import { Award, ExternalLink } from "lucide-react";
+import { Button } from "./ui/button";
 
 export default function Achievements() {
   const achievements = [
     {
       title: "Top 1% in IICPC",
       org: "IICPC (InterCollegiate Informatic and Competitive Programming Camp)",
-      date: "Issued Mar 2025",
-      description: "Merit certificate — secured a rank of 751 out of 45,000 contestants."
+      description:
+        "Merit certificate — secured a rank of 751 out of 45,000 contestants.",
+      link: "",
     },
     {
-      title: "LeetCode — Top 5%",
+      title: "LeetCode Knight - Top 5%",
       org: "LeetCode",
-      date: "Ongoing",
-      description: "Consistently rank in the top 5% of problem solvers on LeetCode (Knight).",
-      tags: ["Algorithms", "Problem Solving"],
+      description:
+        "Consistently rank in the top 5% of problem solvers on LeetCode (Knight).",
+      link: "https://leetcode.com/u/_UdayRaj_/",
     },
     {
-      title: "Codeforces — Specialist",
+      title: "Codeforces - Specialist",
       org: "Codeforces",
-      date: "Ongoing",
-      description: "Achieved the " +
-        "Specialist" +
-        " rating on Codeforces through regular participation in contests.",
-      tags: ["Competitive Programming", "Contests"],
+      description:
+        "Achieved the   Specialist rating on Codeforces through regular participation in contests.",
+      link: "https://codeforces.com/profile/UdayRajVadeghar",
     },
     {
-      title: "Meta Hacker Cup — Rank 2100",
+      title: "Meta Hacker Cup - Rank 2103",
       org: "Meta Hacker Cup",
-      date: "2025",
-      description: "Achieved a global rank of 2100 in the Meta Hacker Cup qualification rounds.",
-      tags: ["Algorithms", "Global Contest"],
+      description:
+        "Achieved a global rank of 2100 in the Meta Hacker Cup qualification rounds.",
     },
-  ]
+  ];
 
   return (
     <section id="achievements" className="py-12">
       <div className="space-y-8">
         <div className="space-y-4 text-center">
-          <h3 className="text-2xl font-bold tracking-tighter sm:text-3xl">Achievements</h3>
+          <h3 className="text-2xl font-bold tracking-tighter sm:text-3xl">
+            Achievements
+          </h3>
           <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg/relaxed lg:text-base/relaxed">
-            Selected accomplishments from programming contests and certifications.
+            Selected accomplishments from programming contests and
+            certifications.
           </p>
         </div>
 
@@ -55,32 +56,27 @@ export default function Achievements() {
                   </div>
                 </div>
 
-                <div className="flex-1">
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <h4 className="text-lg font-semibold">{a.title}</h4>
-                      <p className="text-sm text-muted-foreground">{a.org}</p>
-                    </div>
-                    <div className="text-sm text-muted-foreground">{a.date}</div>
+                <div className="flex-1 space-y-3">
+                  <div>
+                    <h4 className="text-lg font-semibold">{a.title}</h4>
+                    <p className="text-sm text-muted-foreground mt-1">{a.org}</p>
                   </div>
 
-                  <div className="mt-3 flex items-start gap-4">
-                  
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {a.description}
+                  </p>
 
-                    <div className="flex-1">
-                      <p className="text-sm text-muted-foreground">{a.description}</p>
-
-                      {a.tags ? (
-                        <div className="mt-3 flex flex-wrap gap-2">
-                          {a.tags.map((tag, i) => (
-                            <Badge key={i} variant="secondary" className="text-xs">
-                              {tag}
-                            </Badge>
-                          ))}
-                        </div>
-                      ) : null}
-                    </div>
-                  </div>
+                  {a.link && (
+                    <Button size="sm" variant="outline" className="mt-2" asChild>
+                      <a
+                        href={a.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <ExternalLink className="mr-1 h-3 w-3" /> View
+                      </a>
+                    </Button>
+                  )}
                 </div>
               </CardContent>
             </Card>
@@ -88,5 +84,5 @@ export default function Achievements() {
         </div>
       </div>
     </section>
-  )
+  );
 }

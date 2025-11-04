@@ -1,11 +1,18 @@
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
 
 export default function SkillsContent() {
   const skillCategories = [
     {
       category: "Frontend",
-      skills: ["JavaScript", "TypeScript", "React.js", "Tanstack Query", "Zustand", "Tailwind CSS"],
+      skills: [
+        "JavaScript",
+        "TypeScript",
+        "React.js",
+        "Tanstack Query",
+        "Zustand",
+        "Tailwind CSS",
+      ],
     },
     {
       category: "Backend",
@@ -17,18 +24,37 @@ export default function SkillsContent() {
     },
     {
       category: "Cloud & DevOps",
-      skills: ["AWS", "GitHub Actions", "Vertex AI", "Cloud Run", "Docker", "CI/CD"],
+      skills: [
+        "AWS",
+        "GitHub Actions",
+        "Vertex AI",
+        "Cloud Run",
+        "Docker",
+        "CI/CD",
+      ],
     },
     {
-      category: "Tools & Methodologies",
-      skills: ["Git", "Agile", "Scrum", "JIRA", "Figma"],
+      category: "Competitive Programming",
+      skills: ["Algorithms", "Data Structures", "Problem Solving"],
     },
-  ]
+    {
+      category: "Agentic AI",
+      skills: [
+        "LangGraph",
+        "Google-ADK",
+        "MCP Agents",
+        "A2A Protocol",
+        "LangChain",
+      ],
+    },
+  ];
 
   return (
     <div>
       <div className="space-y-4 text-center">
-        <h3 className="text-2xl font-bold tracking-tighter sm:text-3xl">Skills</h3>
+        <h3 className="text-2xl font-bold tracking-tighter sm:text-3xl">
+          Skills
+        </h3>
         <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg/relaxed lg:text-base/relaxed">
           My expertise and technical proficiencies
         </p>
@@ -53,5 +79,5 @@ export default function SkillsContent() {
         ))}
       </div>
     </div>
-  )
+  );
 }

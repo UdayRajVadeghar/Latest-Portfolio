@@ -1,8 +1,8 @@
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { ExternalLink, Github } from "lucide-react"
-import Link from "next/link"
-import OpenSource from "./open-source"
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { ExternalLink, Github } from "lucide-react";
+import Link from "next/link";
+import OpenSource from "./open-source";
 
 export default function Projects() {
   const projects = [
@@ -16,28 +16,30 @@ export default function Projects() {
     },
     {
       title: "E-Commerce Website",
-      description: "A custom e-commerce platform featuring dedicated admin, seller, and buyer portals with integrated secure payment processing",
-      tags: ["JavaScript", "Canvas API", "Game Development"],
+      description:
+        "A custom e-commerce platform featuring dedicated admin, seller, and buyer portals with integrated secure payment processing",
+      tags: ["React", "PostgreSQL", "Express"],
       codeLink: "https://github.com/UdayRajVadeghar/stocklyn",
       liveLink: "https://github.com/UdayRajVadeghar/stocklyn",
     },
     {
       title: "HireHub",
       description:
-       "A job platform where candidates can apply for positions and recruiters can review, shortlist, and manage applications.",
+        "A job platform where candidates can apply for positions and recruiters can review, shortlist, and manage applications.",
       tags: ["Node.js", "AWS", "SQS", "Lambda", "npm package"],
       codeLink: "https://github.com/UdayRajVadeghar/HireHubv1",
       liveLink: null,
     },
-  
-  ]
+  ];
 
   return (
     <section id="projects" className="py-20">
       <div className="container px-4 md:px-6 mx-auto">
         <div className="space-y-12">
           <div className="space-y-4 text-center">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Projects</h2>
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+              Projects
+            </h2>
             <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
               A selection of my personal and professional projects
             </p>
@@ -49,7 +51,9 @@ export default function Projects() {
                 <Card className="overflow-hidden h-full flex flex-col">
                   <CardContent className="project-content flex-1 flex flex-col p-5">
                     <h3 className="text-lg font-bold">{project.title}</h3>
-                    <p className="text-sm text-muted-foreground mt-2 flex-1">{project.description}</p>
+                    <p className="text-sm text-muted-foreground mt-2 flex-1">
+                      {project.description}
+                    </p>
                     <div className="project-tags mt-3">
                       {project.tags.slice(0, 3).map((tag, i) => (
                         <span key={i} className="project-tag">
@@ -58,14 +62,24 @@ export default function Projects() {
                       ))}
                     </div>
                     <div className="project-links mt-4">
-                      <Button size="sm" variant="outline" asChild>
-                        <Link href={project.codeLink || ""} target="_blank" rel="noopener noreferrer">
-                          <Github className="mr-1 h-4 w-4" /> Code
-                        </Link>
-                      </Button>
+                      {project.codeLink && (
+                        <Button size="sm" variant="outline" asChild>
+                          <Link
+                            href={project.codeLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <Github className="mr-1 h-4 w-4" /> Code
+                          </Link>
+                        </Button>
+                      )}
                       {project.liveLink && (
                         <Button size="sm" variant="outline" asChild>
-                          <Link href={project.liveLink} target="_blank" rel="noopener noreferrer">
+                          <Link
+                            href={project.liveLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
                             <ExternalLink className="mr-1 h-4 w-4" /> Live
                           </Link>
                         </Button>
@@ -84,5 +98,5 @@ export default function Projects() {
         </div>
       </div>
     </section>
-  )
+  );
 }
