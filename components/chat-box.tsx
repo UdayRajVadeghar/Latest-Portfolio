@@ -281,7 +281,7 @@ export default function ChatBox() {
               placeholder={
                 isLoading ? "Waiting for response..." : "Type your message..."
               }
-              className={`flex-1 px-3 sm:px-4 py-2.5 rounded-full border bg-muted/50 focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm ${
+              className={`flex-1 px-3 sm:px-4 py-2.5 rounded-full border bg-muted/50 focus:outline-none focus:ring-2 focus:ring-primary/50 text-base ${
                 validationError ? "border-destructive" : ""
               }`}
               autoComplete="off"

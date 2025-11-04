@@ -1,8 +1,15 @@
 import { Analytics } from "@/components/analytics";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import type React from "react";
 import ClientLayout from "./client";
 import "./globals.css";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
 
 export const metadata: Metadata = {
   title: "Uday Raj Vadeghar | Software Engineer",
