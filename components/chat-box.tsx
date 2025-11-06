@@ -18,11 +18,19 @@ export default function ChatBox() {
   const [inputValue, setInputValue] = useState("");
   const [shouldMaintainFocus, setShouldMaintainFocus] = useState(false);
   const [validationError, setValidationError] = useState<string | null>(null);
+  const [loadingMessageIndex, setLoadingMessageIndex] = useState(0);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const MAX_MESSAGE_LENGTH = 1000;
+
+  const firstLoadingMessages = [
+    "Initializing chat... This may take up to 20 seconds",
+    "Cold starting the server... Please wait",
+    "Warming up the AI engine...",
+    "Almost there... Setting up your session",
+  ];
 
   useEffect(() => {
     if (messagesContainerRef.current) {
@@ -38,6 +46,17 @@ export default function ChatBox() {
       inputRef.current.focus();
     }
   }, [messages, isStreaming, shouldMaintainFocus, isLoading]);
+
+  useEffect(() => {
+    if (isLoading && !isStreaming && messages.length === 1) {
+      setLoadingMessageIndex(0);
+      const interval = setInterval(() => {
+        setLoadingMessageIndex((prev) => (prev + 1) % firstLoadingMessages.length);
+      }, 5000);
+
+      return () => clearInterval(interval);
+    }
+  }, [isLoading, isStreaming, messages.length, firstLoadingMessages.length]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -225,11 +244,20 @@ export default function ChatBox() {
                       <Bot className="h-4 w-4 sm:h-4.5 sm:w-4.5" />
                     </div>
                     <div className="rounded-2xl px-4 sm:px-5 py-2.5 sm:py-3 bg-card text-card-foreground rounded-tl-md shadow-sm border border-border">
-                      <div className="flex gap-1.5">
-                        <div className="w-2 h-2 bg-primary rounded-full animate-bounce [animation-delay:-0.3s]"></div>
-                        <div className="w-2 h-2 bg-primary rounded-full animate-bounce [animation-delay:-0.15s]"></div>
-                        <div className="w-2 h-2 bg-primary rounded-full animate-bounce"></div>
-                      </div>
+                      {messages.length === 1 ? (
+                        <div className="flex items-center gap-2">
+                          <Loader2 className="h-4 w-4 animate-spin text-primary" />
+                          <p className="text-sm text-muted-foreground">
+                            {firstLoadingMessages[loadingMessageIndex]}
+                          </p>
+                        </div>
+                      ) : (
+                        <div className="flex gap-1.5">
+                          <div className="w-2 h-2 bg-primary rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+                          <div className="w-2 h-2 bg-primary rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+                          <div className="w-2 h-2 bg-primary rounded-full animate-bounce"></div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
