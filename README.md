@@ -1,115 +1,160 @@
-# Portfolio (Next.js)
+# Portfolio — AI-Powered Multi-Agent Portfolio System
 
-A clean personal portfolio built with Next.js, TypeScript and Tailwind CSS. It showcases experience, education, achievements, projects and skills in a compact, responsive layout.
-
-This repository contains a production-ready portfolio website that you can customize and deploy.
-
-## Highlights
-
-- Built with Next.js 14 (App Router) and React 18
-- Styled with Tailwind CSS and a small UI component set (Card, Badge, Button)
-- Uses TypeScript for type safety
-- Lightweight, fast, and mobile-first
-
-## Tech stack
-
-- Next.js
-- React
-- TypeScript
-- Tailwind CSS
-- Framer Motion (animations)
-- Lucide icons
-- Vercel analytics & speed insights (optional)
-
-## Quick start
-
-Requirements: Node.js 18+ and npm (or pnpm/yarn)
-
-1. Install dependencies
-
-```bash
-npm install
-# or pnpm install
-# or yarn
-```
-
-2. Run development server
-
-```bash
-npm run dev
-# visit http://localhost:3000
-```
-
-3. Build for production
-
-```bash
-npm run build
-npm start
-```
-
-## Available scripts
-
-- `dev` - run Next.js in development mode
-- `build` - build the production application
-- `start` - start the production server (after `build`)
-- `lint` - run Next.js/ESLint checks
-
-## Project structure (important files)
-
-- `app/` - Next.js App Router pages and layout
-- `components/` - UI and content components (experience, skills, education, achievements, etc.)
-- `public/` - static assets (icons, certificate images)
-- `styles/` or `globals.css` - global styles (Tailwind)
-- `package.json` - project scripts and dependencies
-
-## Content tips (customizing)
-
-- Update experience content in `components/experience.tsx`.
-- Update skills in `components/skills.tsx`.
-- Update education in `components/education.tsx`.
-- Replace or add images (company logos, certificates) in `public/images/` and reference them from components. For example, the IICPC certificate should be placed at `public/images/iicpc.png` if you want it to appear in Achievements.
-
-## Deployment
-
-The project is ready to deploy on Vercel (recommended):
-
-1. Push your repo to GitHub.
-2. Import the repo on Vercel and set the root directory to the repository root.
-3. Vercel will detect Next.js and set defaults. Deploy.
-
-You can also deploy to any platform that supports Node.js and Next.js apps.
-
-## Accessibility & Performance
-
-This template aims to be accessible and performant out of the box. You can:
-
-- Run Lighthouse audits and the included Vercel Speed Insights
-- Optimize images in `public/` and use Next.js image optimizations where appropriate
-
-## Contributing
-
-Small tweaks and improvements are welcome. If you're editing content:
-
-1. Create a branch
-2. Make changes (content/images/components)
-3. Run `npm run dev` and verify locally
-4. Open a pull request with a short description
-
-## Troubleshooting
-
-- If you see type or build errors, ensure TypeScript types are satisfied or run `npm run build` to see errors.
-- If a component doesn't render images, confirm the file exists in `public/images/` and the path matches (e.g. `/images/iicpc.png`).
-
-## License
-
-This project is private. Add a license if you open-source it.
+**Portfolio** is not just a typical developer portfolio — it’s a fully AI-driven, multi-agent system that uses **Google Cloud’s Vertex AI**, **RAG (Retrieval-Augmented Generation)**, and a **session-based architecture** to make conversations with visitors intelligent, contextual, and dynamic.  
+Every response you see is generated and grounded in real data about my work, powered by distributed AI agents orchestrated in real-time.
 
 ---
 
-If you want, I can also:
+## Overview
 
-- Add example environment variables and a `.env.example` if needed
-- Add CI/CD workflow (GitHub Actions) for automatic builds
-- Auto-import the IICPC image into `public/images/` if you upload it here
+**Portfolio** is built using the **Agent Development Kit (ADK)** with a **multi-agent architecture**, where each agent is designed to perform a specialized role — query understanding, retrieval, model invocation, or response generation.  
+It uses **Vertex AI’s Model Garden** for LLM invocation, a **custom RAG Engine** backed by **Vertex AI Search** for contextual knowledge retrieval, and is deployed seamlessly on **Google Cloud Run** for serverless scalability.
 
-Tell me which of the above you'd like next and I'll implement it.
+Each user session is tracked individually, with **Redis-based rate limiting** (token bucket algorithm) to prevent abuse, and all user interactions are stored securely in **Google Cloud Storage** for analytics and insights.
+
+---
+
+## Architecture
+
+### **Multi-Agent System**
+- Built with **Agent Development Kit (ADK)**.
+- Each agent handles a specific responsibility:
+  - **Orchestrator Agent:** Routes user requests to the right agents.
+  - **Retrieval Agent:** Fetches contextual data from the RAG corpus.
+  - **Response Agent:** Invokes Vertex AI models for text generation.
+  - **Session Agent:** Maintains session continuity and memory.
+  - **Analytics Agent:** Logs user interactions to Cloud Storage.
+
+### **Retrieval-Augmented Generation (RAG)**
+- RAG corpus created and indexed in the **RAG Engine**.
+- Uses **Vertex AI Search** for semantic retrieval.
+- Each user query is contextually grounded before LLM invocation.
+
+### **Cloud-Native Deployment**
+- Fully deployed on **Google Cloud Run**.
+- Integrates with:
+  - **Vertex AI** → Model invocation & vector search.
+  - **Redis** → Rate limiting (Token Bucket Algorithm).
+  - **Google Cloud Storage (GCS)** → Logging & analytics.
+- Auto-scaled with **serverless compute**.
+- Zero-downtime updates via CI/CD pipeline.
+
+---
+
+## Key AI Features
+
+- **LLM Invocation:** Powered by **Vertex AI’s Model Garden**.
+- **Contextual Memory:** Session-based request–response tracking.
+- **RAG System:** Ensures all responses are factually grounded.
+- **Multi-Agent Intelligence:** Dynamic orchestration between specialized agents.
+- **Rate Limiting:** Redis-based token bucket ensures fair API usage.
+- **Conversation Logging:** All queries stored in Cloud Storage for insights.
+
+---
+
+## Tech Stack
+
+### **AI & Backend**
+- Agent Development Kit (ADK)
+- Node.js / TypeScript
+- Vertex AI (Model Garden, Search, Embeddings)
+- Redis (Rate Limiting)
+- Google Cloud Storage (Logging)
+- RAG Engine (Custom-built)
+- Cloud Run (Serverless Deployment)
+
+### **DevOps & Infrastructure**
+- Google Cloud Platform (GCP)
+- CI/CD with GitHub Actions
+- SSL/TLS & IAM roles
+- Session Management & CORS Security
+
+---
+
+## Workflow
+
+1. **User Interaction:**  
+   A new session is created when a user visits the portfolio.
+
+2. **Query Processing:**  
+   The **Orchestrator Agent** determines the query type and delegates tasks.
+
+3. **Context Retrieval:**  
+   The **Retrieval Agent** queries the **RAG Engine** using **Vertex AI Search**.
+
+4. **Response Generation:**  
+   The **Response Agent** invokes **Vertex AI’s Model Garden** to generate grounded answers.
+
+5. **Rate Limiting & Logging:**  
+   Redis ensures fair usage, and Cloud Storage logs queries for insights.
+
+6. **Response Delivery:**  
+   The answer is returned to the user, preserving session continuity.
+
+---
+
+## Security & Reliability
+
+- **Redis Rate Limiter** with Token Bucket algorithm to prevent query abuse.
+- **Session-based Context Tracking** with secure isolation.
+- **Cloud IAM Policies** for controlled access between components.
+- **SSL/TLS Encryption** on all endpoints.
+- **Automatic Scaling** via Cloud Run for load handling.
+
+---
+
+## Analytics & Insights
+
+All user queries and interactions are stored in **Google Cloud Storage** for:
+- AI query pattern analysis.
+- System performance monitoring.
+- RAG corpus improvement insights.
+
+This data helps refine how the AI interacts, making future sessions more intelligent and relevant.
+
+---
+
+## Why Portfolio is Unique
+
+Unlike traditional portfolios, **Portfolio** is:
+- **Conversational:** You can talk to it like a person.
+- **Contextual:** It remembers session context and adapts responses.
+- **Cloud-Native:** Fully managed via Google Cloud services.
+- **Autonomous:** Powered by a multi-agent architecture with intelligent delegation.
+- **Secure & Scalable:** Designed for production workloads, not just demos.
+
+---
+
+## Future Enhancements
+
+- Integration of **voice-based interaction** (Speech-to-Text + TTS via Vertex AI).  
+- **RAG Corpus Expansion** with project metadata and live data sync.  
+- **Advanced analytics dashboard** for real-time query visualization.  
+- Integration of a **persona adaptation agent** for tone adjustment.
+
+---
+
+## Deployment
+
+Deployed on **Google Cloud Run** with continuous integration via GitHub Actions.  
+Built images are automatically deployed to Cloud Run with zero downtime.  
+Private environment variables handle API keys and configuration securely.
+
+---
+
+## Author
+
+**Uday Raj**  
+AI Engineer • Full-Stack Developer • Cloud Enthusiast  
+Building intelligent, scalable systems powered by AI and cloud infrastructure.  
+
+
+---
+
+## Summary
+
+**Portfolio** is a demonstration of how an AI system can represent a person’s work, skills, and experience interactively.  
+It blends **AI orchestration, RAG-based retrieval, Vertex AI integration, and Google Cloud scalability** into a single unified system.  
+Every aspect — from the multi-agent architecture to the Redis rate limiter — has been designed by me to ensure performance, intelligence, and robustness at production scale.
+
+> “Not just a portfolio — it’s an intelligent agent that truly knows me.”
