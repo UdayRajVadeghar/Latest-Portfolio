@@ -30,6 +30,7 @@ export default function ChatBox() {
     "Cold starting the server... Please wait",
     "Warming up the AI engine...",
     "Almost there... Setting up your session",
+    "Almost...",
   ];
 
   useEffect(() => {
@@ -51,7 +52,9 @@ export default function ChatBox() {
     if (isLoading && !isStreaming && messages.length === 1) {
       setLoadingMessageIndex(0);
       const interval = setInterval(() => {
-        setLoadingMessageIndex((prev) => (prev + 1) % firstLoadingMessages.length);
+        setLoadingMessageIndex(
+          (prev) => (prev + 1) % firstLoadingMessages.length
+        );
       }, 5000);
 
       return () => clearInterval(interval);
@@ -273,7 +276,9 @@ export default function ChatBox() {
             <div className="flex items-center justify-between gap-3">
               <div className="flex items-center gap-2.5 flex-1">
                 <AlertCircle className="h-5 w-5 text-destructive flex-shrink-0" />
-                <p className="text-sm text-destructive font-medium">{error.message}</p>
+                <p className="text-sm text-destructive font-medium">
+                  {error.message}
+                </p>
               </div>
               {error.canRetry && (
                 <button
@@ -310,7 +315,9 @@ export default function ChatBox() {
                 isLoading ? "Waiting for response..." : "Type your message..."
               }
               className={`flex-1 px-4 sm:px-5 py-3 rounded-full border bg-background shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 text-base transition-all duration-200 ${
-                validationError ? "border-destructive focus:ring-destructive/50" : "border-border"
+                validationError
+                  ? "border-destructive focus:ring-destructive/50"
+                  : "border-border"
               }`}
               autoComplete="off"
               maxLength={MAX_MESSAGE_LENGTH + 100}

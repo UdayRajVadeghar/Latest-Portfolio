@@ -1,7 +1,7 @@
 "use client";
 
 import { parseSSEStream } from "@/lib/sse-parser";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useChatSession } from "./useChatSession";
 
 export interface Message {
@@ -27,6 +27,7 @@ export function useChatbot() {
 
   const messageIdCounter = useRef(0);
   const abortControllerRef = useRef<AbortController | null>(null);
+  const hasWarmedUp = useRef(false);
 
   const getTimestamp = () => {
     const now = new Date();
@@ -206,6 +207,42 @@ export function useChatbot() {
       abortControllerRef.current = null;
     }
   }, []);
+
+  const warmupServer = useCallback(async () => {
+    // Send a warmup request to start the server without persisting messages
+    try {
+      const response = await fetch("/api/chatbot", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message: "hi",
+          session_id: sessionId || "",
+        }),
+      });
+
+      // Consume the response to complete the request
+      if (response.ok && response.body) {
+        const reader = response.body.getReader();
+        while (true) {
+          const { done } = await reader.read();
+          if (done) break;
+        }
+      }
+    } catch (err) {
+      // Silently fail - this is just a warmup request
+      console.log("Warmup request completed");
+    }
+  }, [sessionId]);
+
+  // Warmup the server on mount
+  useEffect(() => {
+    if (!hasWarmedUp.current) {
+      hasWarmedUp.current = true;
+      warmupServer();
+    }
+  }, [warmupServer]);
 
   return {
     messages,
