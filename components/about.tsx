@@ -34,7 +34,8 @@ export default function About() {
     <div className="w-full bg-muted/30">
       <section id="about" className="py-20 w-full">
         <div className="container px-4 md:px-6 mx-auto">
-          <div className="space-y-12">
+          <div className="space-y-16">
+            {/* Header */}
             <div className="space-y-4 text-center">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
                 About Me
@@ -47,11 +48,8 @@ export default function About() {
               </p>
             </div>
 
-            <div className="mx-auto max-w-5xl">
-              <ChatBox />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
+            {/* Feature Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {features.map((feature, index) => (
                 <div key={index} className="animate-in">
                   <Card className="h-full transition-all duration-300 hover:shadow-lg hover:border-primary/50">
@@ -67,6 +65,26 @@ export default function About() {
                   </Card>
                 </div>
               ))}
+            </div>
+
+            {/* Interactive ChatBox Section */}
+            <div className="space-y-6">
+              <div className="text-center space-y-2">
+                <h3 className="text-2xl font-bold tracking-tighter sm:text-3xl">
+                  Ask Me Anything
+                </h3>
+                <p className="text-muted-foreground max-w-[600px] mx-auto">
+                  Have questions about my experience, projects, or skills? Chat
+                  with my AI assistant to learn more!
+                </p>
+              </div>
+              <div className="mx-auto max-w-4xl">
+                <Card className="border-primary/20 shadow-lg bg-gradient-to-br from-primary/5 to-transparent">
+                  <CardContent className="p-6 md:p-8">
+                    <ChatBox />
+                  </CardContent>
+                </Card>
+              </div>
             </div>
           </div>
         </div>
