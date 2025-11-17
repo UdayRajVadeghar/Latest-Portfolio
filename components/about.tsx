@@ -48,6 +48,18 @@ export default function About() {
               </p>
             </div>
 
+            {/* Interactive ChatBox Section */}
+            <div className="space-y-6">
+              <div className="text-center space-y-2"></div>
+              <div className="mx-auto max-w-4xl">
+                <Card className="border-primary/20 shadow-lg bg-gradient-to-br from-primary/5 to-transparent">
+                  <CardContent className="p-6 md:p-8">
+                    <ChatBox />
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+
             {/* Feature Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {features.map((feature, index) => (
@@ -65,26 +77,6 @@ export default function About() {
                   </Card>
                 </div>
               ))}
-            </div>
-
-            {/* Interactive ChatBox Section */}
-            <div className="space-y-6">
-              <div className="text-center space-y-2">
-                <h3 className="text-2xl font-bold tracking-tighter sm:text-3xl">
-                  Ask Me Anything
-                </h3>
-                <p className="text-muted-foreground max-w-[600px] mx-auto">
-                  Have questions about my experience, projects, or skills? Chat
-                  with my AI assistant to learn more!
-                </p>
-              </div>
-              <div className="mx-auto max-w-4xl">
-                <Card className="border-primary/20 shadow-lg bg-gradient-to-br from-primary/5 to-transparent">
-                  <CardContent className="p-6 md:p-8">
-                    <ChatBox />
-                  </CardContent>
-                </Card>
-              </div>
             </div>
           </div>
         </div>

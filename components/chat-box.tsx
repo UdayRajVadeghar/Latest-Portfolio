@@ -126,7 +126,7 @@ export default function ChatBox() {
             </div>
             <div className="flex-1 min-w-0">
               <h3 className="font-semibold text-base sm:text-lg">
-                Chat with Uday's AI
+                Chat with My AI
               </h3>
               <p className="text-xs sm:text-sm opacity-90 truncate">
                 Ask me anything about my experience
